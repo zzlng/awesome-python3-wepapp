@@ -8,7 +8,7 @@ async web application.
 '''
 
 
-import logging; logging.basicConfig(level=logging.NOTSET)
+import logging; logging.basicConfig(level=logging.INFO)
 
 import asyncio, os, json, time
 

@@ -8,7 +8,7 @@ encapsulation of database operation.
 '''
 
 
-import logging; logging.baseConfig(level=logging.NOTSET)
+import logging; logging.baseConfig(level=logging.INFO)
 
 import asyncio, aiomysql
 
