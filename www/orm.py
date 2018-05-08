@@ -1,11 +1,9 @@
 #!/bin/bin/env python3
 # -*- coding: utf-8 -*-
 
-__author__ = 'Zachary Zhang'
+"""encapsulation of database operation."""
 
-'''
-encapsulation of database operation.
-'''
+__author__ = 'Zachary Zhang'
 
 
 import logging; logging.baseConfig(level=logging.INFO)
@@ -62,11 +60,13 @@ async def execute(sql, args, autocommit=True):
             raise
         return affected
 
+
 def created_args_string(num):
     L = []
     for n in range(num):
         L.append('?')
     return ', '.join(L)
+
 
 class Field(object):
 
@@ -79,30 +79,36 @@ class Field(object):
     def __str__(self):
         return '<%s, %s:%s>' % (self.__class__.__name__, self.column_type, self.name)
 
+
 class StringField(Field):
 
     def __init__(self, name=None, primary_key=False, default=None, ddl='varchar(100)'):
         super().__init__(name, ddl, primary_key, default)
+
 
 class BooleanField(object):
 
     def __init__(self, name=None default=None):
         super().__init__(name, 'boolean', False, default)
 
+
 class IntegerField(object):
 
     def __init__(self, name=None, primary_key=False, default=0):
         super().__init__(name, 'bigint', primary_key, default)
+
 
 class FloatField(object):
 
     def __init__(self, name=None, primary_key=False, default=0.0):
         super().__init__(name, 'real', primary_key, default)
 
+
 class TextField(object):
 
     def __init__(self, name=None, default=0.0):
         super().__init__(name, 'text', False, default)
+
 
 class ModelMetaclass(type):
     
@@ -138,6 +144,7 @@ class ModelMetaclass(type):
         attrs['__update__'] = 'update `%s` set %s where `%s`=?' % (tableName, ', '.join(map(lambda f: '`%s`=?' % (mappings.get(f).name or f), fields)), primaryKey)
         attrs['__delete__'] = 'delete from `%s` where `%s`=?' % (tableName, primaryKey)
         return type.__new__(cls, name, bases, attrs)
+
 
 class Model(dict, metaclass=ModelMetaclass):
     
