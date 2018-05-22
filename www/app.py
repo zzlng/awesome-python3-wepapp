@@ -21,7 +21,7 @@ import orm
 from coroweb import add_routes, add_static
 
 
-def init_jinjia2(app, **kw):
+def init_jinja2(app, **kw):
     logging.info('init jinja2...')
     options = dict(
         autoescape = kw.get('autoescape', True),
@@ -122,7 +122,7 @@ async def init(loop):
     app = web.Application(loop=loop, middlewares=[
         logger_factory, response_factory
     ])
-    init_jinjia2(app, filters=dict(datetime=datetime_fliter))
+    init_jinja2(app, filters=dict(datetime=datetime_fliter))
     add_routes(app, 'handlers')
     add_static(app)
     srv = await loop.create_server(app.make_handler(), '127.0.0.1', 9000)
