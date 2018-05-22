@@ -11,29 +11,28 @@ import time, uuid
 from orm import Model, StringField, BooleanField, FloatField, TextField
 
 
-def next_id():
-	return '%015d%s000' % (int(time.time() * 1000), uuid.uuid4().hex)
+next_id = lambda : '%015d%s000' % (int(time.time() * 1000), uuid.uuid4().hex)
 
 
-class User(Model):
-	__table__ = 'USERS'
+class Awsmian(Model):
+    __table__ = 'awsmian'
 
-	id = StringField(primary_key=True, default=next_id(), ddl='varchar(50)')
-	email = StringField(ddl='varchar(50)')
-	pwd = StringField(ddl='varchar(50)')
-	admin = BooleanField()
-	name = StringField(ddl='varchar(50)')
+    id = StringField(primary_key=True, default=next_id, ddl='varchar(50)')
+    email = StringField(ddl='varchar(50)')
+    pwd = StringField(ddl='varchar(50)')
+    is_admin = BooleanField()
+    name = StringField(ddl='varchar(50)')
     image = StringField(ddl='varchar(500)')
     created_at = FloatField(default=time.time)
 
 
 class Blog(Model):
-    __table__ = 'BLOGS'
+    __table__ = 'blog'
 
     id = StringField(primary_key=True, default=next_id, ddl='varchar(50)')
-    user_id = StringField(ddl='varchar(50)')
-    user_name = StringField(ddl='varchar(50)')
-    user_image = StringField(ddl='varchar(500)')
+    awsmian_id = StringField(ddl='varchar(50)')
+    awsmian_name = StringField(ddl='varchar(50)')
+    awsmian_image = StringField(ddl='varchar(500)')
     name = StringField(ddl='varchar(50)')
     summary = StringField(ddl='varchar(200)')
     content = TextField()
@@ -41,12 +40,13 @@ class Blog(Model):
 
 
 class Comment(Model):
-    __table__ = 'COMMENTS'
+    __table__ = 'comment'
 
     id = StringField(primary_key=True, default=next_id, ddl='varchar(50)')
     blog_id = StringField(ddl='varchar(50)')
-    user_id = StringField(ddl='varchar(50)')
-    user_name = StringField(ddl='varchar(50)')
-    user_image = StringField(ddl='varchar(500)')
+    blog_name = StringField(ddl='varchar(50)')
+    awsmian_id = StringField(ddl='varchar(50)')
+    awsmian_name = StringField(ddl='varchar(50)')
+    awsmian_image = StringField(ddl='varchar(500)')
     content = TextField()
     created_at = FloatField(default=time.time)
